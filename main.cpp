@@ -1,5 +1,6 @@
 #include <iostream>
 #include "Deck.h"
+#include <limits>
 
 
 enum user_input {Draw_Cards = 1, Discard_Card, Shuffle_Deck, Display_Hand, Display_Deck, Reconstruct_Deck};
@@ -60,6 +61,8 @@ int main() {
 
             default:
                 std::cout << "Invalid selection!\n";
+                std::cin.clear();
+                std::cin.ignore(std::numeric_limits<std::streamsize>::max(),'\n');
                 break;
         }
     }
