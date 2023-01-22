@@ -16,8 +16,9 @@ int main() {
         std::cin >> choice;
 
         switch(choice){
-            int n;
+
             case Draw_Cards:
+                int n;
                 std::cout << "How many cards would you like to draw?\n";
                 std::cin >> n;
                 deck.draw(n);
@@ -40,7 +41,7 @@ int main() {
                 break;
 
             case Display_Hand:
-                if (deck.hand.size() > 0){
+                if (!deck.hand.empty()){
                     deck.display_hand();
                 }else{
                     std::cout << "No cards in hand!\n";
