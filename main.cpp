@@ -1,5 +1,6 @@
 #include <iostream>
 #include "Deck.h"
+#include "Deck_Functions.h"
 #include <limits>
 
 
@@ -43,7 +44,7 @@ int main() {
 
             case Display_Hand:
                 if (!deck.hand.empty()){
-                    deck.display_hand();
+                    display_hand(deck);
                 }else{
                     std::cout << "No cards in hand!\n";
                 }
@@ -51,7 +52,7 @@ int main() {
                 break;
 
             case Display_Deck:
-                deck.display_deck();
+                display_deck(deck);
                 break;
 
             case Reconstruct_Deck:

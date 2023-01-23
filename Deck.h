@@ -10,16 +10,25 @@
 #include <vector>
 
 class Deck {
+
+private:
+    int total_cards;
+    void check_invariant() const{
+        if (deck_of_cards.size() + hand.size() + discard_pile.size() != 52){
+            throw std::logic_error("Invariant violated: total cards should be 52");
+        }
+    }
+
+
 public:
+    Deck();
+
     std::vector<Card> deck_of_cards;
     std::vector<Card> hand;
     std::vector<Card> discard_pile;
 
-    Deck();
-    void display_deck() const;
-    void display_hand() const;
     void shuffle_deck();
-    std::vector<Card> draw(int);
+    std::vector<Card> draw(int const);
     void discard(int);
     void reconstruct_deck();
 };

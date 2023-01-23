@@ -15,25 +15,14 @@ Deck::Deck() {
                 card.card_rank = static_cast<Card::Rank>(rank);
                 card.card_suit = static_cast<Card::Suit>(suit);
                 deck_of_cards.push_back(card);
+                ++total_cards;
             }
         }
+        //Ensure deck is in a valid state
+        check_invariant();
         //Shuffle the deck to insure a random order after constructing the deck.
         shuffle_deck();
     }
-
-void Deck::display_deck() const{
-    for (auto card : deck_of_cards) {
-        std::cout << Card::rank_strings[static_cast<int>(card.card_rank)]
-        << " of " << Card::suit_strings[static_cast<int>(card.card_suit)] << "\n";
-    }
-}
-
-void Deck::display_hand() const{
-    for (auto card : hand){
-        std::cout << Card::rank_strings[static_cast<int>(card.card_rank)]
-                  << " of " << Card::suit_strings[static_cast<int>(card.card_suit)] << "\n";
-    }
-}
 
 void Deck::shuffle_deck() {
     std::random_device rd;
@@ -42,20 +31,32 @@ void Deck::shuffle_deck() {
 
 }
 
-std::vector<Card> Deck::draw(int const n) {
+std::vector<Card> Deck::draw(int n) {
+    if (n > deck_of_cards.size()) {
+        std::cout << "Error: Attempting to draw more cards than are in the deck.\n";
+        return hand;
+    }
+    check_invariant();
     for (int i = 0; i < n && !deck_of_cards.empty(); i++) {
         hand.push_back(deck_of_cards.front());
         deck_of_cards.erase(deck_of_cards.begin());
     }
+    check_invariant();
     return hand;
 }
 
 void Deck::discard(int const n) {
+    if (n > hand.size()) {
+        std::cout << "Error: Attempting to discard more cards than are in the hand.\n";
+        return;
+    }
+    check_invariant();
     for (int i = 0; i < n && !deck_of_cards.empty() && !hand.empty(); i++) {
         discard_pile.push_back(hand.front());
         hand.erase(hand.begin());
 
         }
+    check_invariant();
     }
 
 void Deck::reconstruct_deck() {
@@ -63,6 +64,7 @@ void Deck::reconstruct_deck() {
     deck_of_cards.clear();
     hand.clear();
     discard_pile.clear();
+    total_cards = 0;
 
     //Rebuild the deck
     for (int suit = 0; suit <= 3; suit++) {
@@ -71,8 +73,12 @@ void Deck::reconstruct_deck() {
             card.card_rank = static_cast<Card::Rank>(rank);
             card.card_suit = static_cast<Card::Suit>(suit);
             deck_of_cards.push_back(card);
+            ++total_cards;
         }
     }
+    //Ensure the deck is constructed in a valid state
+    check_invariant();
+
     //Shuffle the deck to insure a random order after constructing the deck.
     shuffle_deck();
 }
